@@ -1,21 +1,22 @@
 from PIL import Image, ImageDraw
+import os
+
+os.makedirs("icons", exist_ok=True)
 
 def generate_icon(size):
-    scale = 8  # Higher scale for ultra-crisp anti-aliasing
+    scale = 8
     high_res_size = size * scale
 
     img = Image.new("RGBA", (high_res_size, high_res_size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
-    # Background rounded rect (matching icon.svg)
     bg_radius = int(28 * (high_res_size / 128))
     draw.rounded_rectangle(
         [(0, 0), (high_res_size - 1, high_res_size - 1)],
         radius=bg_radius,
-        fill=(49, 46, 129, 255) # #312e81
+        fill=(49, 46, 129, 255)
     )
 
-    # Outer video frame outline (matching icon.svg: rect x=24 y=32 w=80 h=56 rx=8 stroke=6)
     s = high_res_size / 128.0
     x1 = int(24 * s)
     y1 = int(32 * s)
@@ -31,7 +32,6 @@ def generate_icon(size):
         width=outline_width
     )
 
-    # Inner PiP rectangle (matching icon.svg: rect x=64 y=52 w=34 h=26 rx=4 fill accent #6366f1)
     ix1 = int(64 * s)
     iy1 = int(52 * s)
     ix2 = int((64 + 34) * s)
@@ -47,7 +47,7 @@ def generate_icon(size):
     final_img = img.resize((size, size), Image.Resampling.LANCZOS)
     return final_img
 
-generate_icon(16).save("icon16.png")
-generate_icon(48).save("icon48.png")
-generate_icon(128).save("icon128.png")
-print("High-quality anti-aliased icons generated successfully!")
+generate_icon(16).save("icons/icon16.png")
+generate_icon(48).save("icons/icon48.png")
+generate_icon(128).save("icons/icon128.png")
+print("High-quality anti-aliased icons generated successfully in icons/!")

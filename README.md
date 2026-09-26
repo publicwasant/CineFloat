@@ -38,9 +38,9 @@ git clone https://github.com/your-username/CineFloat.git
    - **Edge:** `edge://extensions/`
 2. ที่มุมขวาบนของหน้า Extensions ให้เปิดสวิตช์ **Developer mode (โหมดนักพัฒนาซอฟต์แวร์)** ให้เป็น **On (เปิด)**
 3. ที่มุมซ้ายบน ให้คลิกปุ่ม **Load unpacked (โหลดส่วนขยายที่ไม่ได้บรรจุ)**
-4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js` และรูปไอคอน)
+4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js` และโฟลเดอร์ `icons/`)
 5. **สำเร็จ!** 🎉 ไอคอน **CineFloat** จะปรากฏขึ้นมาทันที
-6. เปิดเว็บไซต์ [Disney+](https://www.disneyplus.com/) เล่นหนังหรือซีรีส์ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
+6. เปิดเว็บไซต์ [Disney+](https://www.disneyplus.com/), เล่นหนังหรือซีรีส์ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
 
 ---
 
@@ -50,10 +50,13 @@ git clone https://github.com/your-username/CineFloat.git
 CineFloat/
 ├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3)
 ├── content.js          # สคริปต์หลักสำหรับดักจับวิดีโอและควบคุม PiP
-├── icon16.png          # ไอคอน 16x16 (Anti-aliased)
-├── icon48.png          # ไอคอน 48x48 (Anti-aliased)
-├── icon128.png         # ไอคอน 128x128 (Anti-aliased)
-├── generate_icons.py   # สคริปต์ Python สำหรับสร้างไอคอน PNG
+├── icons/
+│   ├── icon16.png      # ไอคอน 16x16 (Anti-aliased)
+│   ├── icon48.png      # ไอคอน 48x48 (Anti-aliased)
+│   ├── icon128.png     # ไอคอน 128x128 (Anti-aliased)
+│   └── icon.svg        # ต้นฉบับเวกเตอร์ SVG
+├── scripts/
+│   └── generate_icons.py # สคริปต์ Python สำหรับสร้างไอคอน PNG
 └── README.md           # คู่มือการใช้งานและติดตั้ง
 ```
 
