@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "CineFloat",
+  "version": "1.0",
+  "description": "Auto Picture-in-Picture extension for Disney+",
+  "icons": {
+    "16": "icon.svg",
+    "48": "icon.svg",
+    "128": "icon.svg"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.disneyplus.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
