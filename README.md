@@ -1,17 +1,18 @@
 # CineFloat 🎬✨
 
-**CineFloat** เป็น Browser Extension (Sideloaded Extension) อัจฉริยะที่ถูกออกแบบมาเพื่อเพิ่มปุ่ม **Picture-in-Picture (PiP)** แบบอัตโนมัติให้กับวิดีโอบนเว็บสตรีมมิ่งทุกแพลตฟอร์ม ช่วยให้คุณรับชมวิดีโอในหน้าต่างลอยได้อย่างอิสระโดยไม่ต้องพึ่งพาสโตร์!
+**CineFloat** เป็น Browser Extension (Sideloaded Extension) อัจฉริยะที่ถูกออกแบบมาเพื่อเพิ่มปุ่ม **Picture-in-Picture (PiP)** แบบอัตโนมัติให้กับวิดีโอบนเว็บสตรีมมิ่งทุกแพลตฟอร์ม พร้อมปุ่ม **-10s / +10s**, **แถบ Slide Timeline** บนหน้าต่างลอย และ **คีย์ลัด Alt + P** ช่วยให้คุณรับชมวิดีโอได้อย่างอิสระโดยไม่ต้องพึ่งพาสโตร์!
 
 ---
 
 ## ✨ Features
 
 - **Universal Web Video Support:** ตรวจจับและเพิ่มปุ่ม PiP ที่มุมขวาบนของเครื่องเล่นวิดีโอบนทุกเว็บไซต์โดยอัตโนมัติ (เช่น Disney+, YouTube, Netflix, Prime Video, Twitch, WeTV, iQIYI, Bilibili, เว็บบล็อกข่าว ฯลฯ)
+- **⌨️ Keyboard Shortcut (Alt + P):** สลับเปิด/ปิดหน้าต่างลอย PiP ได้ทันทีผ่านคีย์ลัด `Alt + P` (หรือ `Option + P` บน Mac) โดยไม่ต้องใช้เมาส์คลิก
+- **⏩ Native PiP Seek Controls (-10s / +10s):** เพิ่มปุ่มกอย้อนหลัง **-10 วินาที** และข้ามหน้า **+10 วินาที** บนหน้าต่างลอย PiP โดยอัตโนมัติผ่าน MediaSession API
+- **📊 Interactive Timeline Slider:** แก้ไขปัญหาป้าย "Live" และปลดล็อกแถบเลื่อนเวลา (Scrub Timeline Bar) บนหน้าต่างลอย PiP ให้สามารถกดเลื่อนช่วงเวลาดูวิดีโอได้ทันที
 - **Shadow DOM & iFrame Compatible:** รองรับวิดีโอที่ฝังอยู่ใน iFrame และ Web Components (Shadow DOM)
-- **Zero-Friction Toggle:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอยทันที
-- **Smart Auto-Resume:** เล่นวิดีโอต่อโดยอัตโนมัติเมื่อออกจากหน้าต่าง PiP
-- **SPA & Dynamic Navigation:** รองรับเว็บแอปพลิเคชันยุคใหม่ (SPA) เปลี่ยนตอน/เปลี่ยนหน้าได้อย่างไร้รอยต่อ
-- **Manifest V3:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็ว ปลอดภัย และไม่กินทรัพยากร
+- **Zero-Friction Toggle & Auto-Resume:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอย พร้อมเล่นวิดีโอต่อให้อัตโนมัติเมื่อปิดหน้าต่าง PiP
+- **Manifest V3 & Zero-Config:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็ว ไม่กินทรัพยากร และไม่ต้องตั้งค่าใดๆ ให้ยุ่งยาก
 
 ---
 
@@ -32,16 +33,16 @@ git clone https://github.com/your-username/CineFloat.git
 ---
 
 ### 📦 ขั้นตอนการติดตั้งลงในเบราว์เซอร์ (Chrome, Edge, Brave, Opera)
-เมื่อได้โฟลเดอร์โปรเจคมาแล้ว ให้ทำตามหนทางนี้เพื่อเปิดใช้งาน:
+เมื่อได้โฟลเดอร์โปรเจคมาแล้ว ให้ทำตามขั้นตอนเพื่อเปิดใช้งาน:
 
 1. เปิดเบราว์เซอร์ของคุณขึ้นมา แล้วพิมพ์ลิงก์นี้ลงในแถบ URL:
    - **Chrome / Brave / Opera:** `chrome://extensions/`
    - **Edge:** `edge://extensions/`
 2. ที่มุมขวาบนของหน้า Extensions ให้เปิดสวิตช์ **Developer mode (โหมดนักพัฒนาซอฟต์แวร์)** ให้เป็น **On (เปิด)**
 3. ที่มุมซ้ายบน ให้คลิกปุ่ม **Load unpacked (โหลดส่วนขยายที่ไม่ได้บรรจุ)**
-4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js` และโฟลเดอร์ `icons/`)
+4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js`, `background.js` และโฟลเดอร์ `icons/`)
 5. **สำเร็จ!** 🎉 ไอคอน **CineFloat** จะปรากฏขึ้นมาทันที
-6. เปิดเว็บไซต์สตรีมมิ่งที่คุณต้องการ (เช่น Disney+, YouTube, Twitch ฯลฯ), เล่นวิดีโอ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
+6. เปิดเว็บไซต์สตรีมมิ่งที่คุณต้องการ (เช่น Disney+, YouTube, Twitch ฯลฯ), เล่นวิดีโอ แล้วกดปุ่ม PiP หรือกดคีย์ลัด `Alt + P` ได้เลย!
 
 ---
 
@@ -49,8 +50,9 @@ git clone https://github.com/your-username/CineFloat.git
 
 ```text
 CineFloat/
-├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3 - Universal Match)
-├── content.js          # สคริปต์หลักสำหรับตรวจจับวิดีโอใน DOM/ShadowDOM และจัดการ PiP
+├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3 & Keybindings)
+├── background.js       # Service Worker สำหรับรับคำสั่งคีย์ลัด Alt + P
+├── content.js          # สคริปต์หลักสำหรับตรวจจับวิดีโอ, จัดการ PiP และ MediaSession
 ├── icons/
 │   ├── icon16.png      # ไอคอน 16x16 (Anti-aliased)
 │   ├── icon48.png      # ไอคอน 48x48 (Anti-aliased)

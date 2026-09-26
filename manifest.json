@@ -1,12 +1,25 @@
 {
   "manifest_version": 3,
   "name": "CineFloat",
-  "version": "1.0",
-  "description": "Universal Picture-in-Picture (PiP) extension for web video streaming.",
+  "version": "2.1",
+  "description": "Universal Picture-in-Picture (PiP) extension with shortcut & MediaSession scrub controls.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "toggle-pip": {
+      "suggested_key": {
+        "default": "Alt+P",
+        "mac": "Alt+P"
+      },
+      "description": "Toggle Picture-in-Picture for active video",
+      "global": true
+    }
   },
   "content_scripts": [
     {
