@@ -1,35 +1,46 @@
 # CineFloat 🎬✨
 
-**CineFloat** is a lightweight, modern browser extension (Manifest V3) designed to bring seamless **Picture-in-Picture (PiP)** functionality to **Disney+**. 
-
-Enjoy your favorite movies and series in a floating window while multitasking, without dealing with annoying playback restrictions or missing native PiP buttons!
+**CineFloat** เป็น Extension ลับเฉพาะตัว (Sideloaded Browser Extension) ที่ถูกออกแบบมาเพื่อเพิ่มปุ่ม **Picture-in-Picture (PiP)** แบบอัตโนมัติให้กับ **Disney+** ช่วยให้คุณรับชมวิดีโอในหน้าต่างลอยได้อย่างอิสระโดยไม่ต้องง้อสโตร์!
 
 ---
 
 ## ✨ Features
 
-- **Automatic PiP Button Injection:** Detects active Disney+ video players and automatically adds a sleek PiP button directly onto the video player overlay.
-- **Zero-Friction Toggle:** Easily enter and exit floating window mode with a single click.
-- **Smart Auto-Resume:** Automatically resumes video playback when you exit PiP mode.
-- **SPA & Episode Navigation Support:** Continuous polling ensures the PiP button persists even when navigating between episodes or switching pages.
-- **Manifest V3:** Built on the latest secure and high-performance browser extension standard.
+- **Automatic PiP Button Injection:** ตรวจจับและเพิ่มปุ่ม PiP ที่มุมขวาบนของวิดีโอ Disney+ อัตโนมัติ
+- **Zero-Friction Toggle:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอย
+- **Smart Auto-Resume:** เล่นวิดีโอต่อโดยอัตโนมัติเมื่อปิดหน้าต่าง PiP
+- **SPA & Episode Navigation Support:** รองรับการเปลี่ยนตอนและเปลี่ยนหน้าอย่างไร้รอยต่อด้วยระบบ Polling อัจฉริยะ
+- **Manifest V3:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็วและปลอดภัย
 
 ---
 
-## 🚀 Installation Guide
+## 🛠️ วิธีติดตั้งแบบ Manual (Sideloading / ของลับเฉพาะกิจ)
 
-To install **CineFloat** locally in your browser (Chrome, Edge, Brave, etc.):
+เนื่องจาก Extension นี้ไม่ได้วางจำหน่ายบน Chrome Web Store คุณสามารถติดตั้งแบบ Manual ได้ง่ายๆ ในไม่กี่ขั้นตอน:
 
-1. **Clone or Download** this repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/CineFloat.git
-   ```
-2. Open your browser and navigate to the extensions management page:
-   - **Chrome / Brave / Edge:** `chrome://extensions/`
-3. Enable **Developer mode** using the toggle switch in the top-right corner.
-4. Click the **Load unpacked** button in the top-left corner.
-5. Select the `privatewasant-disneyplus-pip` (or `CineFloat`) folder.
-6. Open [Disney+](https://www.disneyplus.com/), play any video, and click the CineFloat PiP icon in the top right of the video player!
+### วิธีที่ 1: ดาวน์โหลดแบบ ZIP (ง่ายที่สุด ไม่ต้องใช้ Git)
+1. กดที่ปุ่มเขียว **`< > Code`** ด้านบนของ GitHub repository นี้ แล้วเลือก **`Download ZIP`**
+2. แตกไฟล์ ZIP (Extract) ลงในโฟลเดอร์ที่คุณต้องการ (เช่น หน้า Desktop หรือ Documents)
+
+### วิธีที่ 2: โคลนผ่าน Git
+หากคุณมี Git อยู่แล้ว สามารถโคลนโปรเจคมาไว้ที่เครื่องได้เลย:
+```bash
+git clone https://github.com/your-username/CineFloat.git
+```
+
+---
+
+### 📦 ขั้นตอนการติดตั้งลงในเบราว์เซอร์ (Chrome, Edge, Brave, Opera)
+เมื่อได้โฟลเดอร์โปรเจคมาแล้ว ให้ทำตามขั้นตอนนี้เพื่อเปิดใช้งาน:
+
+1. เปิดเบราว์เซอร์ของคุณขึ้นมา แล้วพิมพ์ลิงก์นี้ลงในแถบ URL:
+   - **Chrome / Brave / Opera:** `chrome://extensions/`
+   - **Edge:** `edge://extensions/`
+2. ที่มุมขวาบนของหน้า Extensions ให้เปิดสวิตช์ **Developer mode (โหมดนักพัฒนาซอฟต์แวร์)** ให้เป็น **On (เปิด)**
+3. ที่มุมซ้ายบน ให้คลิกปุ่ม **Load unpacked (โหลดส่วนขยายที่ไม่ได้บรรจุ)**
+4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js` และรูปไอคอน)
+5. **สำเร็จ!** 🎉 ไอคอน **CineFloat** จะปรากฏขึ้นมาทันที
+6. เปิดเว็บไซต์ [Disney+](https://www.disneyplus.com/) เล่นหนังหรือซีรีส์ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
 
 ---
 
@@ -37,25 +48,17 @@ To install **CineFloat** locally in your browser (Chrome, Edge, Brave, etc.):
 
 ```text
 CineFloat/
-├── manifest.json       # Extension configuration (Manifest V3)
-├── content.js          # Injected script for video detection and PiP controls
-├── icon16.png          # 16x16 icon (Anti-aliased)
-├── icon48.png          # 48x48 icon (Anti-aliased)
-├── icon128.png         # 128x128 icon (Anti-aliased)
-├── generate_icons.py   # Python utility script for generating high-res PNG icons
-└── README.md           # Project documentation
+├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3)
+├── content.js          # สคริปต์หลักสำหรับดักจับวิดีโอและควบคุม PiP
+├── icon16.png          # ไอคอน 16x16 (Anti-aliased)
+├── icon48.png          # ไอคอน 48x48 (Anti-aliased)
+├── icon128.png         # ไอคอน 128x128 (Anti-aliased)
+├── generate_icons.py   # สคริปต์ Python สำหรับสร้างไอคอน PNG
+└── README.md           # คู่มือการใช้งานและติดตั้ง
 ```
-
----
-
-## 💻 Tech Stack
-
-- **JavaScript (Vanilla ES6+)**
-- **HTML5 Video & Picture-in-Picture API**
-- **Chrome Extensions API (Manifest V3)**
 
 ---
 
 ## 📜 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+โปรเจคนี้เผยแพร่ภายใต้ [MIT License](LICENSE).
