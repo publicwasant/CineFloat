@@ -8,8 +8,6 @@
 
 - **Universal Web Video Support:** ตรวจจับและเพิ่มปุ่ม PiP ที่มุมขวาบนของเครื่องเล่นวิดีโอบนทุกเว็บไซต์โดยอัตโนมัติ (เช่น Disney+, YouTube, Netflix, Prime Video, Twitch, WeTV, iQIYI, Bilibili, เว็บบล็อกข่าว ฯลฯ)
 - **⌨️ Keyboard Shortcut (Alt + P):** สลับเปิด/ปิดหน้าต่างลอย PiP ได้ทันทีผ่านคีย์ลัด `Alt + P` (หรือ `Option + P` บน Mac) โดยไม่ต้องใช้เมาส์คลิก
-- **⏩ Native PiP Seek Controls (-10s / +10s):** เพิ่มปุ่มกอย้อนหลัง **-10 วินาที** และข้ามหน้า **+10 วินาที** บนหน้าต่างลอย PiP โดยอัตโนมัติผ่าน MediaSession API
-- **📊 Interactive Timeline Slider:** แก้ไขปัญหาป้าย "Live" และปลดล็อกแถบเลื่อนเวลา (Scrub Timeline Bar) บนหน้าต่างลอย PiP ให้สามารถกดเลื่อนช่วงเวลาดูวิดีโอได้ทันที
 - **Shadow DOM & iFrame Compatible:** รองรับวิดีโอที่ฝังอยู่ใน iFrame และ Web Components (Shadow DOM)
 - **Zero-Friction Toggle & Auto-Resume:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอย พร้อมเล่นวิดีโอต่อให้อัตโนมัติเมื่อปิดหน้าต่าง PiP
 - **Manifest V3 & Zero-Config:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็ว ไม่กินทรัพยากร และไม่ต้องตั้งค่าใดๆ ให้ยุ่งยาก
