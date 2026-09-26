@@ -1,32 +1,57 @@
-
-
 (function () {
   'use strict';
 
-  function initPipButton() {
-    // 1. ค้นหา <video> ตัวหลัก
-    const videos = Array.from(document.querySelectorAll('video'));
-    const activeVideo = videos.find(v => v.readyState >= 1 && v.videoWidth > 0) || 
-                        videos.find(v => v.readyState >= 1);
+  // Helper to recursively collect all <video> elements, including inside Shadow DOMs
+  function getAllVideos(root = document) {
+    let videos = [];
+    try {
+      videos = Array.from(root.querySelectorAll('video'));
 
-    if (!activeVideo) return;
+      const allElements = root.querySelectorAll('*');
+      for (const el of allElements) {
+        if (el.shadowRoot) {
+          videos = videos.concat(getAllVideos(el.shadowRoot));
+        }
+      }
+    } catch (e) {
+      // Catch cross-origin / root access restrictions if any
+    }
+    return videos;
+  }
 
-    // 2. ปลดล็อกตัวบล็อก PiP
-    activeVideo.removeAttribute('disablepictureinpicture');
-    activeVideo.disablePictureInPicture = false;
+  function attachPipButtonToVideo(video) {
+    if (!video) return;
 
-    // 3. หา Video Container
-    const videoContainer = activeVideo.parentElement || document.body;
-    if (window.getComputedStyle(videoContainer).position === 'static') {
-      videoContainer.style.position = 'relative';
+    // 1. Unlock PiP block
+    video.removeAttribute('disablepictureinpicture');
+    video.disablePictureInPicture = false;
+
+    // Check if button is already attached and present in DOM
+    if (video._cineFloatBtn && document.contains(video._cineFloatBtn)) {
+      return;
     }
 
-    // ถ้าใน Container นี้มีปุ่มอยู่แล้ว ไม่ต้องสร้างซ้ำ
-    if (videoContainer.querySelector('#minimal-pip-btn')) return;
+    // 2. Identify Video Container
+    let container = video.parentElement;
+    if (!container) {
+      const rootNode = video.getRootNode();
+      if (rootNode && rootNode.host) {
+        container = rootNode.host;
+      } else {
+        container = document.body;
+      }
+    }
 
-    // 4. สร้างไอคอน PiP
+    if (window.getComputedStyle(container).position === 'static') {
+      container.style.position = 'relative';
+    }
+
+    // 3. Create PiP Button
     const btn = document.createElement('button');
-    btn.id = 'minimal-pip-btn';
+    btn.className = 'cinefloat-pip-btn';
+    btn.setAttribute('aria-label', 'Picture-in-Picture');
+    btn.setAttribute('title', 'CineFloat Picture-in-Picture');
+
     btn.innerHTML = `
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
@@ -36,72 +61,102 @@
 
     btn.style.cssText = `
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 16px;
       z-index: 2147483647;
-      background: transparent;
-      border: none;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
       outline: none;
       padding: 6px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.85);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
       transition: all 0.2s ease;
       user-select: none;
     `;
 
     btn.onmouseover = () => {
       btn.style.color = '#ffffff';
-      btn.style.transform = 'scale(1.15)';
+      btn.style.background = 'rgba(0, 0, 0, 0.75)';
+      btn.style.transform = 'scale(1.1)';
     };
 
     btn.onmouseout = () => {
-      btn.style.color = 'rgba(255, 255, 255, 0.7)';
+      btn.style.color = 'rgba(255, 255, 255, 0.85)';
+      btn.style.background = 'rgba(0, 0, 0, 0.45)';
       btn.style.transform = 'scale(1)';
     };
 
-    // 5. สั่งเปิด PiP
+    // 4. Toggle PiP
     btn.onclick = async (e) => {
       e.stopPropagation();
+      e.preventDefault();
       try {
-        if (document.pictureInPictureElement) {
+        if (document.pictureInPictureElement === video) {
           await document.exitPictureInPicture();
         } else {
-          await activeVideo.requestPictureInPicture();
+          await video.requestPictureInPicture();
           btn.style.display = 'none';
         }
       } catch (err) {
-        console.error("PiP error:", err);
+        console.error("CineFloat PiP error:", err);
       }
     };
 
-    // 6. ดักปิด PiP -> คืนปุ่ม + เล่นต่อ
+    // 5. Restore button and safely auto-resume on leaving PiP
     const handleLeavePiP = () => {
       btn.style.display = 'flex';
       setTimeout(async () => {
-        activeVideo.dispatchEvent(new Event('pause', { bubbles: true }));
         try {
-          await activeVideo.play();
+          if (video.paused) {
+            await video.play();
+          }
         } catch (err) {
-          document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space', keyCode: 32, bubbles: true }));
+          // Fallback event dispatch if standard play fails
+          video.dispatchEvent(new Event('play', { bubbles: true }));
         }
-        activeVideo.dispatchEvent(new Event('play', { bubbles: true }));
-        activeVideo.dispatchEvent(new Event('playing', { bubbles: true }));
-      }, 200);
+      }, 150);
     };
 
-    if (activeVideo._pipHandler) {
-      activeVideo.removeEventListener('leavepictureinpicture', activeVideo._pipHandler);
+    if (video._pipHandler) {
+      video.removeEventListener('leavepictureinpicture', video._pipHandler);
     }
-    activeVideo._pipHandler = handleLeavePiP;
-    activeVideo.addEventListener('leavepictureinpicture', handleLeavePiP);
+    video._pipHandler = handleLeavePiP;
+    video.addEventListener('leavepictureinpicture', handleLeavePiP);
 
-    videoContainer.appendChild(btn);
+    // 6. Append button to container
+    container.appendChild(btn);
+    video._cineFloatBtn = btn;
   }
 
-  // ใช้ polling เฝ้าตรวจจับ Element <video> กรณีเปลี่ยนหน้า/เปลี่ยนตอนหนัง
-  setInterval(initPipButton, 1000);
+  function scanAndInit() {
+    const videos = getAllVideos();
+    for (const video of videos) {
+      // Ignore tiny icons or non-video preview elements (< 50px)
+      if (video.offsetWidth > 0 && video.offsetWidth < 50) continue;
+      if (video.offsetHeight > 0 && video.offsetHeight < 50) continue;
+
+      attachPipButtonToVideo(video);
+    }
+  }
+
+  // Initial scan
+  scanAndInit();
+
+  // Periodic polling for dynamic SPA pages (YouTube, Disney+, Netflix, etc.)
+  setInterval(scanAndInit, 1500);
+
+  // Observe DOM additions for fast response
+  if (document.body || document.documentElement) {
+    const observer = new MutationObserver(() => scanAndInit());
+    observer.observe(document.body || document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  }
 })();

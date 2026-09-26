@@ -1,20 +1,21 @@
 # CineFloat 🎬✨
 
-**CineFloat** เป็น Extension ลับเฉพาะตัว (Sideloaded Browser Extension) ที่ถูกออกแบบมาเพื่อเพิ่มปุ่ม **Picture-in-Picture (PiP)** แบบอัตโนมัติให้กับ **Disney+** ช่วยให้คุณรับชมวิดีโอในหน้าต่างลอยได้อย่างอิสระโดยไม่ต้องง้อสโตร์!
+**CineFloat** เป็น Browser Extension (Sideloaded Extension) อัจฉริยะที่ถูกออกแบบมาเพื่อเพิ่มปุ่ม **Picture-in-Picture (PiP)** แบบอัตโนมัติให้กับวิดีโอบนเว็บสตรีมมิ่งทุกแพลตฟอร์ม ช่วยให้คุณรับชมวิดีโอในหน้าต่างลอยได้อย่างอิสระโดยไม่ต้องพึ่งพาสโตร์!
 
 ---
 
 ## ✨ Features
 
-- **Automatic PiP Button Injection:** ตรวจจับและเพิ่มปุ่ม PiP ที่มุมขวาบนของวิดีโอ Disney+ อัตโนมัติ
-- **Zero-Friction Toggle:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอย
-- **Smart Auto-Resume:** เล่นวิดีโอต่อโดยอัตโนมัติเมื่อปิดหน้าต่าง PiP
-- **SPA & Episode Navigation Support:** รองรับการเปลี่ยนตอนและเปลี่ยนหน้าอย่างไร้รอยต่อด้วยระบบ Polling อัจฉริยะ
-- **Manifest V3:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็วและปลอดภัย
+- **Universal Web Video Support:** ตรวจจับและเพิ่มปุ่ม PiP ที่มุมขวาบนของเครื่องเล่นวิดีโอบนทุกเว็บไซต์โดยอัตโนมัติ (เช่น Disney+, YouTube, Netflix, Prime Video, Twitch, WeTV, iQIYI, Bilibili, เว็บบล็อกข่าว ฯลฯ)
+- **Shadow DOM & iFrame Compatible:** รองรับวิดีโอที่ฝังอยู่ใน iFrame และ Web Components (Shadow DOM)
+- **Zero-Friction Toggle:** คลิกเดียวเพื่อเปิด/ปิดหน้าต่างลอยทันที
+- **Smart Auto-Resume:** เล่นวิดีโอต่อโดยอัตโนมัติเมื่อออกจากหน้าต่าง PiP
+- **SPA & Dynamic Navigation:** รองรับเว็บแอปพลิเคชันยุคใหม่ (SPA) เปลี่ยนตอน/เปลี่ยนหน้าได้อย่างไร้รอยต่อ
+- **Manifest V3:** ทำงานบนมาตรฐาน Extension ล่าสุดที่รวดเร็ว ปลอดภัย และไม่กินทรัพยากร
 
 ---
 
-## 🛠️ วิธีติดตั้งแบบ Manual (Sideloading / ของลับเฉพาะกิจ)
+## 🛠️ วิธีติดตั้งแบบ Manual (Sideloading)
 
 เนื่องจาก Extension นี้ไม่ได้วางจำหน่ายบน Chrome Web Store คุณสามารถติดตั้งแบบ Manual ได้ง่ายๆ ในไม่กี่ขั้นตอน:
 
@@ -31,7 +32,7 @@ git clone https://github.com/your-username/CineFloat.git
 ---
 
 ### 📦 ขั้นตอนการติดตั้งลงในเบราว์เซอร์ (Chrome, Edge, Brave, Opera)
-เมื่อได้โฟลเดอร์โปรเจคมาแล้ว ให้ทำตามขั้นตอนนี้เพื่อเปิดใช้งาน:
+เมื่อได้โฟลเดอร์โปรเจคมาแล้ว ให้ทำตามหนทางนี้เพื่อเปิดใช้งาน:
 
 1. เปิดเบราว์เซอร์ของคุณขึ้นมา แล้วพิมพ์ลิงก์นี้ลงในแถบ URL:
    - **Chrome / Brave / Opera:** `chrome://extensions/`
@@ -40,7 +41,7 @@ git clone https://github.com/your-username/CineFloat.git
 3. ที่มุมซ้ายบน ให้คลิกปุ่ม **Load unpacked (โหลดส่วนขยายที่ไม่ได้บรรจุ)**
 4. เลือกโฟลเดอร์โปรเจค `CineFloat` (โฟลเดอร์ที่มีไฟล์ `manifest.json`, `content.js` และโฟลเดอร์ `icons/`)
 5. **สำเร็จ!** 🎉 ไอคอน **CineFloat** จะปรากฏขึ้นมาทันที
-6. เปิดเว็บไซต์ [Disney+](https://www.disneyplus.com/), เล่นหนังหรือซีรีส์ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
+6. เปิดเว็บไซต์สตรีมมิ่งที่คุณต้องการ (เช่น Disney+, YouTube, Twitch ฯลฯ), เล่นวิดีโอ แล้วกดปุ่ม PiP ที่มุมขวาบนของวิดีโอได้เลย!
 
 ---
 
@@ -48,8 +49,8 @@ git clone https://github.com/your-username/CineFloat.git
 
 ```text
 CineFloat/
-├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3)
-├── content.js          # สคริปต์หลักสำหรับดักจับวิดีโอและควบคุม PiP
+├── manifest.json       # ไฟล์คอนฟิก Extension (Manifest V3 - Universal Match)
+├── content.js          # สคริปต์หลักสำหรับตรวจจับวิดีโอใน DOM/ShadowDOM และจัดการ PiP
 ├── icons/
 │   ├── icon16.png      # ไอคอน 16x16 (Anti-aliased)
 │   ├── icon48.png      # ไอคอน 48x48 (Anti-aliased)
