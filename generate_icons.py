@@ -1,31 +1,53 @@
-import struct
-import zlib
+from PIL import Image, ImageDraw
 
-def write_png(width, height, filepath):
-    signature = b'\x89PNG\r\n\x1a\n'
+def generate_icon(size):
+    scale = 8  # Higher scale for ultra-crisp anti-aliasing
+    high_res_size = size * scale
 
-    ihdr_data = struct.pack('>IIBBBBB', width, height, 8, 6, 0, 0, 0)
-    ihdr_chunk = struct.pack('>I', 13) + b'IHDR' + ihdr_data + struct.pack('>I', zlib.crc32(b'IHDR' + ihdr_data) & 0xFFFFFFFF)
+    img = Image.new("RGBA", (high_res_size, high_res_size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
 
-    raw_data = bytearray()
-    for y in range(height):
-        raw_data.append(0)
-        for x in range(width):
-            if (width * 0.2 <= x <= width * 0.8) and (height * 0.25 <= y <= height * 0.75):
-                r, g, b, a = 255, 255, 255, 240
-            else:
-                r, g, b, a = 49, 46, 129, 255
-            raw_data.extend([r, g, b, a])
+    # Background rounded rect (matching icon.svg)
+    bg_radius = int(28 * (high_res_size / 128))
+    draw.rounded_rectangle(
+        [(0, 0), (high_res_size - 1, high_res_size - 1)],
+        radius=bg_radius,
+        fill=(49, 46, 129, 255) # #312e81
+    )
 
-    compressed_data = zlib.compress(bytes(raw_data))
-    idat_chunk = struct.pack('>I', len(compressed_data)) + b'IDAT' + compressed_data + struct.pack('>I', zlib.crc32(b'IDAT' + compressed_data) & 0xFFFFFFFF)
+    # Outer video frame outline (matching icon.svg: rect x=24 y=32 w=80 h=56 rx=8 stroke=6)
+    s = high_res_size / 128.0
+    x1 = int(24 * s)
+    y1 = int(32 * s)
+    x2 = int((24 + 80) * s)
+    y2 = int((32 + 56) * s)
+    outer_radius = int(8 * s)
+    outline_width = max(1, int(6 * s))
 
-    iend_chunk = struct.pack('>I', 0) + b'IEND' + struct.pack('>I', zlib.crc32(b'IEND') & 0xFFFFFFFF)
+    draw.rounded_rectangle(
+        [(x1, y1), (x2, y2)],
+        radius=outer_radius,
+        outline=(255, 255, 255, 230),
+        width=outline_width
+    )
 
-    with open(filepath, 'wb') as f:
-        f.write(signature + ihdr_chunk + idat_chunk + iend_chunk)
+    # Inner PiP rectangle (matching icon.svg: rect x=64 y=52 w=34 h=26 rx=4 fill accent #6366f1)
+    ix1 = int(64 * s)
+    iy1 = int(52 * s)
+    ix2 = int((64 + 34) * s)
+    iy2 = int((52 + 26) * s)
+    inner_radius = int(4 * s)
 
-write_png(16, 16, 'icon16.png')
-write_png(48, 48, 'icon48.png')
-write_png(128, 128, 'icon128.png')
-print("Icons generated successfully.")
+    draw.rounded_rectangle(
+        [(ix1, iy1), (ix2, iy2)],
+        radius=inner_radius,
+        fill=(99, 102, 241, 255)
+    )
+
+    final_img = img.resize((size, size), Image.Resampling.LANCZOS)
+    return final_img
+
+generate_icon(16).save("icon16.png")
+generate_icon(48).save("icon48.png")
+generate_icon(128).save("icon128.png")
+print("High-quality anti-aliased icons generated successfully!")
